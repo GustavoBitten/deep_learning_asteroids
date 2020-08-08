@@ -44,6 +44,10 @@
         const MUSIC_ON = true;
         const SOUND_ON = true;
 
+        const NUM_INPUTS = 2
+        const NUM_HIDDEN = 5
+        const NUM_OUTPUTS = 1
+
 
         /** @type {HTMLCanvasElement} */
         var canv = document.getElementById("gameCanvas");
@@ -64,30 +68,12 @@
         newGame();
 
         //set up neural network
+        var nn
         if(AUTOMATION_ON){
+            nn = new NeuralNetwork(NUM_INPUTS,NUM_HIDDEN,NUM_OUTPUTS)
 
-            let m0 = new Matrix(3,2,[
-                [6,2],
-                [1,2],
-                [2,3]
-            ])
-            let m1 = new Matrix(3,2,[
-                [6,2],
-                [1,2],
-                [1,2]
-            ])
-
-               
-            let m2 = new Matrix(2,2,[
-                [6,2],
-                [1,2],
-                
-            ])
-
-            let arr = [1,5,34,1]
-            
-            //m0.randomWeights()
-            console.table(Matrix.transpose(m0).data)
+            console.table(nn.weights0.data)
+            console.table(nn.weights1.data)
         
 
 
