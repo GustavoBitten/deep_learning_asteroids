@@ -74,9 +74,7 @@ class Matrix {
         Matrix.checkDimensions(m0, m1)
         let m = new Matrix(m0.rows, m0.cols)
         for (let i = 0; i < m.rows; i++) {
-
             for (let j = 0; j < m.cols; j++) {
-                
                 m.data[i][j] = m0.data[i][j] * m1.data[i][j]
 
             }
@@ -123,6 +121,16 @@ class Matrix {
         if (m0.rows != m1.rows || m0.cols != m1.cols) {
             throw new Error("Matrices are of different dimensions!")
         }
+    }
+
+    static transpose(m0){
+        let m = new Matrix(m0.cols, m0.rows)
+        for (let i = 0; i < m0.rows; i++) {
+            for (let j = 0; j < m0.cols; j++) {
+                m.data[j][i] = m0.data[i][j]
+            }
+        }
+        return m
     }
 
     randomWeights() {

@@ -69,12 +69,15 @@
             let m0 = new Matrix(3,2,[
                 [6,2],
                 [1,2],
-                [2,3],
+                [2,3]
             ])
-            let m1 = new Matrix(2,2,[
+            let m1 = new Matrix(3,2,[
                 [6,2],
                 [1,2],
+                [1,2]
             ])
+
+               
             let m2 = new Matrix(2,2,[
                 [6,2],
                 [1,2],
@@ -84,7 +87,7 @@
             let arr = [1,5,34,1]
             
             //m0.randomWeights()
-            console.table(Matrix.map(m2, x => x*6).data)
+            console.table(Matrix.transpose(m0).data)
         
 
 
