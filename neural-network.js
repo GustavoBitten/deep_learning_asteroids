@@ -108,6 +108,17 @@ class Matrix {
         return new Matrix(1, arr.length, [arr])
     }
 
+    static map(m0, mFunction){
+        let m = new Matrix(m0.rows, m0.cols)
+        for (let i = 0; i < m.rows; i++) {
+            for (let j = 0; j < m.cols; j++) {
+                m.data[i][j] = mFunction(m0.data[i][j])
+            }
+
+        }
+        return m
+    }
+
     static checkDimensions(m0, m1) {
         if (m0.rows != m1.rows || m0.cols != m1.cols) {
             throw new Error("Matrices are of different dimensions!")
