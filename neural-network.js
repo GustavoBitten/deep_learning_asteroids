@@ -85,6 +85,25 @@ class Matrix {
         return m
     }
 
+    static dot(m0,m1){
+        if(m0.cols != m1.rows){
+            throw new Error ("Matrices are not \"dot\" compatible ")
+        }
+        let m = new Matrix(m0.rows, m1.cols)
+        for (let i = 0; i < m.rows; i++) {
+            for (let j = 0; j < m.cols; j++) {
+                let sum = 0
+                for (let k = 0; k < m0.cols; k++){
+                    sum += m0.data[i][k]* m1.data[k][j]
+                }
+                m.data[i][j] = sum
+            }
+
+        }
+        return m
+        
+    }
+
     static checkDimensions(m0, m1) {
         if (m0.rows != m1.rows || m0.cols != m1.cols) {
             throw new Error("Matrices are of different dimensions!")

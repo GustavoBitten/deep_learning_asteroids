@@ -71,10 +71,9 @@
                 [1,2],
                 [2,3],
             ])
-            let m1 = new Matrix(3,2,[
+            let m1 = new Matrix(2,2,[
                 [6,2],
                 [1,2],
-                [2,3],
             ])
             let m2 = new Matrix(2,2,[
                 [6,2],
@@ -83,7 +82,7 @@
             ])
             
             //m0.randomWeights()
-            console.table(Matrix.multiply(m0,m1).data)
+            console.table(Matrix.dot(m2,m1).data)
         
 
 
