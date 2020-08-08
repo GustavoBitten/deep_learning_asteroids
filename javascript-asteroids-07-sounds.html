@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Asteroids</title>
     <style></style>
+    <script type="text/javascript" src="./neural-network.js"></script>
 </head>
 
 <body>
@@ -32,12 +33,17 @@
         const SHIP_SIZE = 30; // ship height in pixels
         const SHIP_THRUST = 5; // acceleration of the ship in pixels per second per second
         const SHIP_TURN_SPD = 360; // turn speed in degrees per second
-        const SHOW_BOUNDING = false; // show or hide collision bounding
-        const SHOW_CENTRE_DOT = false; // show or hide ship's centre dot
-        const MUSIC_ON = true;
-        const SOUND_ON = true;
         const TEXT_FADE_TIME = 2.5; // text fade time in seconds
         const TEXT_SIZE = 40; // text font height in pixels
+
+        
+        // developer flags
+        const AUTOMATION_ON = true
+        const SHOW_BOUNDING = true; // show or hide collision bounding
+        const SHOW_CENTRE_DOT = true; // show or hide ship's centre dot
+        const MUSIC_ON = true;
+        const SOUND_ON = true;
+
 
         /** @type {HTMLCanvasElement} */
         var canv = document.getElementById("gameCanvas");
@@ -56,6 +62,34 @@
         // set up the game parameters
         var level, lives, roids, score, scoreHigh, ship, text, textAlpha;
         newGame();
+
+        //set up neural network
+        if(AUTOMATION_ON){
+
+            let m0 = new Matrix(3,2,[
+                [6,2],
+                [1,2],
+                [2,3],
+            ])
+            let m1 = new Matrix(3,2,[
+                [6,2],
+                [1,2],
+                [2,3],
+            ])
+            let m2 = new Matrix(2,2,[
+                [6,2],
+                [1,2],
+                
+            ])
+            
+            //m0.randomWeights()
+            console.table(Matrix.subtract(m0,m1).data)
+        
+
+
+        } 
+
+
 
         // set up event handlers
         document.addEventListener("keydown", keyDown);
@@ -155,7 +189,7 @@
 
         function keyDown(/** @type {KeyboardEvent} */ ev) {
 
-            if (ship.dead) {
+            if (ship.dead || AUTOMATION_ON) {
                 return;
             }
 
@@ -177,7 +211,7 @@
 
         function keyUp(/** @type {KeyboardEvent} */ ev) {
 
-            if (ship.dead) {
+            if (ship.dead || AUTOMATION_ON) {
                 return;
             }
 
@@ -338,6 +372,9 @@
             var blinkOn = ship.blinkNum % 2 == 0;
             var exploding = ship.explodeTime > 0;
 
+            if(AUTOMATION_ON){
+                
+            }
             // tick the music
             music.tick();
 
