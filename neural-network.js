@@ -28,7 +28,23 @@ class NeuralNetwork {
         this._weights1 = weights
     }
 
-}  
+    feedForward(inputArray){
+
+        let inputs = Matrix.convertFromArray(inputArray)
+
+        let hidden = Matrix.dot(inputs,this.weights0)
+        hidden = Matrix.map(hidden, x => sigmoid(x))
+
+        let outputs = Matrix.dot(hidden,this.weights1)
+        outputs = Matrix.map(outputs, x => sigmoid(x))
+
+        return outputs
+    }
+}
+
+function sigmoid() {
+    return 1 / (1+ Math.exp(-x))
+}
 
 
 
