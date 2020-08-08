@@ -104,6 +104,10 @@ class Matrix {
         
     }
 
+    static convertFromArray(arr){
+        return new Matrix(1, arr.length, [arr])
+    }
+
     static checkDimensions(m0, m1) {
         if (m0.rows != m1.rows || m0.cols != m1.cols) {
             throw new Error("Matrices are of different dimensions!")
