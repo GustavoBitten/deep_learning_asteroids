@@ -1,6 +1,6 @@
 "use strict"
 const LOG_ON = true
-const LOG_FREQ = 10000
+const LOG_FREQ = 50000
 let train_count = 0
 
 
