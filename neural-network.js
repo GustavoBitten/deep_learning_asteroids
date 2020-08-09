@@ -2,6 +2,8 @@
 
 class NeuralNetwork {
     constructor(numInputs, numHidden,numOutputs){
+        this._hidden = []
+        this._inputs = []
         this._numInputs = numInputs 
         this._numHidden = numHidden 
         this._numOutputs = numOutputs
@@ -10,6 +12,22 @@ class NeuralNetwork {
         
         this._weights0.randomWeights()
         this._weights1.randomWeights()
+    }
+
+    get inputs(){
+        return this._inputs
+    }
+
+    set inputs(inputs){
+        this._inputs = inputs
+    }
+
+    get hidden(){
+        return this._hidden
+    }
+
+    set hidden(hidden){
+        this._hidden = hidden
     }
 
     get weights0(){
@@ -30,19 +48,47 @@ class NeuralNetwork {
 
     feedForward(inputArray){
 
-        let inputs = Matrix.convertFromArray(inputArray)
+        this.inputs = Matrix.convertFromArray(inputArray)
 
-        let hidden = Matrix.dot(inputs,this.weights0)
-        hidden = Matrix.map(hidden, x => sigmoid(x))
+        this.hidden = Matrix.dot(this.inputs,this.weights0)
+        this.hidden = Matrix.map(this.hidden, x => sigmoid(x))
 
-        let outputs = Matrix.dot(hidden,this.weights1)
+        let outputs = Matrix.dot(this.hidden,this.weights1)
         outputs = Matrix.map(outputs, x => sigmoid(x))
 
         return outputs
     }
+
+    train(inputArray,targetArray){
+
+        let outputs = this.feedForward(inputArray)
+
+        let targets = Matrix.convertFromArray(targetArray)
+
+        let outputErros = Matrix.subtract(targets,outputs)
+
+        let outputDerivs = Matrix.map(outputs, x => sigmoid(x,true))
+        let outputDeltas = Matrix.multiply(outputErros, outputDerivs)
+        
+        let weights1T = Matrix.transpose(this.weights1)
+        let hiddenErros = Matrix.dot(outputDeltas, weights1T)
+
+        let hiddenDerivs = Matrix.map(this.hidden, x => sigmoid(x,true))
+        let hiddenDeltas = Matrix.multiply(hiddenErros, hiddenDerivs)
+
+        let hiddenT = Matrix.transpose(this.hidden)
+        this.weights1 = Matrix.add(this.weights1,Matrix.dot(hiddenT,outputDeltas))      
+        let inputsT = Matrix.transpose(this.inputs)
+        this.weights0 = Matrix.add(this.weights0,Matrix.dot(inputsT,hiddenDeltas))
+        
+
+    }
 }
 
-function sigmoid() {
+function sigmoid(x, deriv = false) {
+    if(deriv){
+        return x * (1- x)
+    }
     return 1 / (1+ Math.exp(-x))
 }
 
