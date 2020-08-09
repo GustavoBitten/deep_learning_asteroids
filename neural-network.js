@@ -1,5 +1,9 @@
 "use strict"
-let count = 0
+const LOG_ON = true
+const LOG_FREQ = 10000
+let train_count = 0
+
+
 class NeuralNetwork {
     constructor(numInputs, numHidden,numOutputs){
         this._hidden = []
@@ -11,6 +15,8 @@ class NeuralNetwork {
         this._bias1 = new Matrix(1, this._numOutputs)
         this._weights0 = new Matrix(this._numInputs, this._numHidden) 
         this._weights1 = new Matrix(this._numHidden, this._numOutputs)
+
+        this._logCount = LOG_FREQ
         
         this._bias0.randomWeights()
         this._bias1.randomWeights()
@@ -67,6 +73,14 @@ class NeuralNetwork {
         this._weights1 = weights
     }
 
+    get logCount(){
+        return this._logCount
+    }
+
+    set logCount(count){
+        this._logCount = count
+    }
+
     feedForward(inputArray){
 
         this.inputs = Matrix.convertFromArray(inputArray)
@@ -87,8 +101,19 @@ class NeuralNetwork {
         let outputs = this.feedForward(inputArray)
 
         let targets = Matrix.convertFromArray(targetArray)
-
         let outputErros = Matrix.subtract(targets,outputs)
+
+        if(LOG_ON){
+            if (this.logCount == LOG_FREQ){
+                console.log("Nº" + train_count + " error = " + outputErros.data[0][0] )
+                
+            }
+            this.logCount--
+            train_count++
+            if(this.logCount ==0){
+                this.logCount = LOG_FREQ
+            }
+        }
 
         let outputDerivs = Matrix.map(outputs, x => sigmoid(x,true))
         let outputDeltas = Matrix.multiply(outputErros, outputDerivs)
