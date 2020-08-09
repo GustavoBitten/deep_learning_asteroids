@@ -47,6 +47,7 @@
         const NUM_INPUTS = 2
         const NUM_HIDDEN = 5
         const NUM_OUTPUTS = 1
+        const NUM_SAMPLES = 100000
 
 
         /** @type {HTMLCanvasElement} */
@@ -67,12 +68,24 @@
         var level, lives, roids, score, scoreHigh, ship, text, textAlpha;
         newGame();
 
+
+        
         //set up neural network
         var nn
         if(AUTOMATION_ON){
             nn = new NeuralNetwork(NUM_INPUTS,NUM_HIDDEN,NUM_OUTPUTS)
 
-            nn.train([1,3],[1])
+            for (let i = 0; i < NUM_SAMPLES; i++) {
+                let input0 = Math.round(Math.random())
+                let input1 = Math.round(Math.random())
+                let output = input0 == input1 ? 0 : 1 
+                nn.train([input0,input1],[output])
+            }
+
+            console.log("0 , 0 = " + nn.feedForward([0 , 0]).data)
+            console.log("0 , 1 = " + nn.feedForward([0 , 1]).data)
+            console.log("1 , 0 = " + nn.feedForward([1 , 0]).data)
+            console.log("1 , 1 = " + nn.feedForward([1 , 1]).data)
 
 
         } 
